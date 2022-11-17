@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.work.Constraints
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +24,11 @@ class MainActivity : AppCompatActivity() {
             .setConstraints(constraints)
             .build()
 
+        // PeriodicWorkRequestBuilder time = 20 min la valeur par défaut est 15 min.
 
+      /*  val request = PeriodicWorkRequestBuilder<MyWork>(20, TimeUnit.MINUTES)
+            .setConstraints(constraints)
+            .build()*/
         findViewById<View>(R.id.btnClick).setOnClickListener {
 
             WorkManager.getInstance(this).enqueue(request)
