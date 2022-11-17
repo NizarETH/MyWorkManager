@@ -1,12 +1,12 @@
 package com.ofppt.workmanager
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.work.*
-import java.util.concurrent.TimeUnit
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,13 +16,17 @@ class MainActivity : AppCompatActivity() {
 
 
         val constraints = Constraints.Builder()
-            .setRequiresCharging(true)
-           // .setRequiredNetworkType(NetworkType.CONNECTED)
+           .setRequiresCharging(true)
+           //.setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        var request = OneTimeWorkRequestBuilder<MyWork>()
-            .setConstraints(constraints)
+
+        val request = OneTimeWorkRequest.Builder(MyWork::class.java)
+            .setInputData(createInputDataForUri()!!)
             .build()
+        /* var request = OneTimeWorkRequestBuilder<MyWork>()
+             .setConstraints(constraints)
+             .build()*/
 
         // PeriodicWorkRequestBuilder time = 20 min la valeur par défaut est 15 min.
 
@@ -42,4 +46,19 @@ class MainActivity : AppCompatActivity() {
             })
 
     }
+
+    private fun createInputDataForUri(): Data? {
+        val builder: Data.Builder = Data.Builder()
+
+
+        builder.putString(KEY_VALUE, "data")
+
+        return builder.build()
+    }
+
+
+    companion object {
+        const val KEY_VALUE = "key"
+    }
+
 }
